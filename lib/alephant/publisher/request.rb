@@ -1,7 +1,7 @@
 require 'alephant/logger'
 require 'alephant/publisher/request/version'
 require 'alephant/publisher/request/processor'
-require "rack/request"
+require 'rack/request'
 require 'rack/response'
 
 module Alephant
@@ -24,7 +24,7 @@ module Alephant
             response = status
           when /component\/(?<id>[^\/]+)$/
             component_id = $~['id']
-            response = Rack::Response.new("<p>#{component_id}</p>", 200, { "Content-Type" => "text/html" })
+            response     = Rack::Response.new("<p>#{component_id}</p>", 200, { "Content-Type" => "text/html" })
           end
 
           response.finish

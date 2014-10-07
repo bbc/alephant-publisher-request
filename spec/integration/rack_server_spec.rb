@@ -1,15 +1,21 @@
 require_relative "./spec_helper"
 
-describe "foo" do
+describe Alephant::Publisher::Request do
   include Rack::Test::Methods
 
   def app
-    Alephant::Publisher::Request.create
+    subject.create
   end
 
-  it "should server HTML content from correct endpoint" do
-    get "/component/foo"
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq "<p>foo</p>"
+  describe "GET /component/{param}" do
+    context "with a valid parameter" do
+
+      it "returns HTML" do
+        get "/component/foo"
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq "<p>foo</p>"
+      end
+    end
+
   end
 end
