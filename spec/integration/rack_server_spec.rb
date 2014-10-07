@@ -1,10 +1,10 @@
 require_relative "./spec_helper"
 
-describe "foo" do
+describe Alephant::Publisher::Request do
   include Rack::Test::Methods
 
   def app
-    Alephant::Publisher::Request.create
+    subject.create
   end
 
   it "should server HTML content from correct endpoint" do
