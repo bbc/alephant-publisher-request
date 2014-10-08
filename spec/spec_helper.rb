@@ -8,4 +8,4 @@ require 'alephant/publisher/request/views/json'
 require 'alephant/publisher/request/views/html'
 require 'alephant/publisher/request/data_mapper'
 
-require_relative './fixtures/components/foo/mappers/foo_mapper'
+require_relative './fixtures/components/foo/mapper'
