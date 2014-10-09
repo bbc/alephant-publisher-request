@@ -7,7 +7,7 @@ describe Alephant::Publisher::Request do
     subject.create
   end
 
-  describe "/component/{param}" do
+  describe "GET /component/{param}" do
     context "with a valid parameter" do
 
       it "returns HTML" do
