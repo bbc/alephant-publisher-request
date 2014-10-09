@@ -8,7 +8,7 @@ module Alephant
           @api_host   = api_host
           @connection = connection
           @base_path  = base_path
-          raise "Invalid base path: #{base_path}" unless File.directory? base_path
+          raise InvalidComponentBasePath, base_path unless File.directory? base_path
         end
 
         def create(component_id, context = {})
@@ -19,6 +19,8 @@ module Alephant
           )
 
           klass.new(api_host, context, connection)
+        rescue LoadError
+          raise InvalidComponentName, component_id
         end
 
       end

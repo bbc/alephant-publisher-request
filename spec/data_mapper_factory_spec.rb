@@ -5,43 +5,34 @@ describe Alephant::Publisher::Request::DataMapperFactory do
   let (:connection) { instance_double(Faraday::Connection, :get => nil) }
   let (:base_path) { File.join(File.dirname(__FILE__), 'fixtures') }
 
-  let (:subject) { Alephant::Publisher::Request::DataMapperFactory.new(api_host, connection, base_path) }
+  subject { described_class.new(api_host, connection, base_path) }
 
   describe ".create" do
-    let (:context) {
+    let (:context) do
       {
         :foo => :bar
       }
-    }
+    end
 
     context "using valid parameters" do
       let (:component_id) { 'foo' }
       let (:expected) { FooMapper }
 
-      specify {
-        expect(subject.create(component_id, context)).to be_instance_of expected
-      }
-
+      specify { expect(subject.create(component_id, context)).to be_a expected }
     end
 
     context "using invalid path" do
       let (:base_path) { File.join(File.dirname(__FILE__), 'non_existent_path') }
+      let (:expected_exception) { Alephant::Publisher::Request::InvalidComponentBasePath }
 
-      specify {
-        expect{ subject.create(component_id, context) }.to raise_exception RuntimeError
-      }
-
+      specify { expect{ subject.create(component_id, context) }.to raise_error expected_exception }
     end
 
     context "using invalid component name" do
       let (:component_id) { 'bar' }
+      let (:expected_exception) { Alephant::Publisher::Request::InvalidComponentName }
 
-      specify {
-        expect{ subject.create(component_id, context) }.to raise_exception LoadError
-      }
-
+      specify { expect{ subject.create(component_id, context) }.to raise_error expected_exception }
     end
-
   end
-
 end
