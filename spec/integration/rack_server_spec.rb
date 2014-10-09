@@ -7,9 +7,15 @@ describe Alephant::Publisher::Request do
     subject.create
   end
 
-  it "should serve HTML content from correct endpoint" do
-    get "/component/foo"
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq "<p>foo</p>"
+  describe "/component/{param}" do
+    context "with a valid parameter" do
+
+      it "returns HTML" do
+        get "/component/foo"
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq "<p>foo</p>"
+      end
+    end
+
   end
 end
