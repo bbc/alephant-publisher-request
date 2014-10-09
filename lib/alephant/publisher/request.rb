@@ -3,6 +3,7 @@ require 'alephant/publisher/request/version'
 require 'alephant/publisher/request/processor'
 require 'rack/request'
 require 'rack/response'
+require 'alephant/publisher/request/error'
 
 module Alephant
   module Publisher
