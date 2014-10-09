@@ -1,3 +1,5 @@
+require 'json'
+
 module Alephant
   module Publisher
     module Request
@@ -17,7 +19,13 @@ module Alephant
         protected
 
         def get(uri)
-          connection.get uri
+          response = connection.get(uri)
+          raise InvalidApiResponse unless response.status == 200
+          JSON::parse(response.body, :symbolize_names => true)
+        rescue Faraday::ConnectionFailed
+          raise ConnectionFailed
+        rescue Error, JSON::ParserError
+          raise InvalidApiResponse
         end
 
       end

@@ -3,18 +3,26 @@ require 'alephant/publisher/request/version'
 require 'alephant/publisher/request/processor'
 require 'rack/request'
 require 'rack/response'
+require 'alephant/publisher/request/error'
 
 module Alephant
   module Publisher
     module Request
       include Logger
 
-      def self.create(opts = {}, processor = nil)
-        processor ||= Processor.new(opts)
-        Publisher.new(opts, processor)
+      def self.create(processor, data_mapper_factory, opts = {})
+        Request.new(opts, data_mapper_factory, processor)
       end
 
-      class Publisher
+      class Request
+        attr_reader :opts, :processor, :data_mapper_factory
+
+        def initialize(opts, data_mapper_factory, processor = nil)
+          @opts                = opts
+          @processor           = processor
+          @data_mapper_factory = data_mapper_factory
+        end
+
         def call(env)
           req      = Rack::Request.new(env)
           response = Rack::Response.new("<h1>Not Found</h1>", 404, { "Content-Type" => "text/html" })
@@ -30,11 +38,6 @@ module Alephant
           response.finish
         rescue Exception => e
           Rack::Response.new("<h1>An exception occured: #{e.message}</h1>", 500, { 'Content-Type' => 'text/html' })
-        end
-
-        def initialize(opts, processor = nil)
-          @opts = opts
-          @processor = processor
         end
 
         def run!
