@@ -2,6 +2,7 @@ require 'pry'
 
 require 'aws-sdk'
 require 'faraday'
+require 'alephant/renderer'
 require 'alephant/publisher/request'
 require 'alephant/publisher/request/data_mapper'
 require 'alephant/publisher/request/data_mapper_factory'

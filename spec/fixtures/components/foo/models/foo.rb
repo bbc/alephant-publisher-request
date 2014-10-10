@@ -1,5 +1,7 @@
+require 'alephant/renderer/views/html'
+
 module MyApp
-  class Foo < Alephant::Publisher::Request::Views::Html
+  class Foo < Alephant::Renderer::Views::Html
     def content
       @data[:content]
     end

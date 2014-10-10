@@ -4,13 +4,28 @@ module Alephant
   module Publisher
     module Request
       class Processor < BaseProcessor
-        def initialize(opts)
-          # ...
+        attr_reader :base_path
+
+        def initialize(base_path)
+          @base_path = base_path
         end
 
-        def consume(data)
-          # ...
+        def consume(data, component)
+          config = config_for component
+          renderer_for(config, data).views[component].render
         end
+
+        def renderer_for(config, data)
+          Alephant::Renderer.create(config, data)
+        end
+
+        def config_for(component)
+          {
+            :renderer_id => component,
+            :view_path   => base_path
+          }
+        end
+
       end
     end
   end
