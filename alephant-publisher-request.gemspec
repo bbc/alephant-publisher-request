@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'i18n'
   spec.add_runtime_dependency 'alephant-support'
   spec.add_runtime_dependency 'alephant-logger'
+  spec.add_runtime_dependency 'alephant-renderer'
 end
