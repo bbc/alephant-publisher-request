@@ -16,9 +16,9 @@ describe Alephant::Publisher::Request::Processor do
     end
 
     context "using valid data" do
-      let (:component_id) { "foo" }
+      let (:component) { "foo" }
 
-      specify { expect(subject.consume(data, component_id)).to eq "#{data.values.first}\n" }
+      specify { expect(subject.consume(data, component)).to eq "#{data.values.first}\n" }
     end
 
   end
