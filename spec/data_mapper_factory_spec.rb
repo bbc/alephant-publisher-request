@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe Alephant::Publisher::Request::DataMapperFactory do
-  let (:api_host) { 'https://www.test-api.com' }
   let (:connection) { instance_double(Faraday::Connection) }
   let (:base_path) { File.join(File.dirname(__FILE__), 'fixtures') }
 
-  subject { described_class.new(api_host, connection, base_path) }
+  subject { described_class.new(connection, base_path) }
 
   describe ".create" do
     let (:context) do

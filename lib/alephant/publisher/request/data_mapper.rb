@@ -4,12 +4,11 @@ module Alephant
   module Publisher
     module Request
       class DataMapper
-        attr_reader :context, :api_host, :connection
+        attr_reader :connection, :context
 
-        def initialize(api_host, context = {}, connection)
-          @context    = context
-          @api_host   = api_host
+        def initialize(connection, context = {})
           @connection = connection
+          @context    = context
         end
 
         def data

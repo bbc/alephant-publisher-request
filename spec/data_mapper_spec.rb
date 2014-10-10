@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe FooMapper do
-  let (:api_host) { 'http://www.test-api.com' }
   let (:connection) { instance_double(Faraday::Connection, :get => nil) }
   let (:context) do
     {
@@ -9,7 +8,7 @@ describe FooMapper do
     }
   end
 
-  subject { described_class.new(api_host, context, connection) }
+  subject { described_class.new(connection, context) }
 
   describe "#data" do
     let (:expected_raw_data) do
