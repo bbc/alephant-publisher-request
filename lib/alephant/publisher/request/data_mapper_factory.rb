@@ -16,9 +16,9 @@ module Alephant
           klass = mapper_class_for(component_id)
           klass.new(connection, context)
         rescue LoadError
-          raise InvalidComponentName, component_id
+          raise InvalidComponentName, "Invalid component name: #{component_id}"
         rescue NameError
-          raise InvalidComponentClassName, klass
+          raise InvalidComponentClassName, "Invalid class name #{klass}"
         rescue
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
@@ -26,7 +26,7 @@ module Alephant
         protected
 
         def base_path_for(component_id)
-          "#{base_path}/components/#{component_id}/mapper"
+          "#{base_path}/#{component_id}/mapper"
         end
 
         def camalize(snake_case)

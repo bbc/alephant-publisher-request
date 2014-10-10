@@ -19,12 +19,14 @@ module Alephant
 
         def get(uri)
           response = connection.get(uri)
-          raise InvalidApiResponse unless response.status == 200
+          raise InvalidApiResponse, "Status: #{response.status}" unless response.status == 200
           JSON::parse(response.body, :symbolize_names => true)
         rescue Faraday::ConnectionFailed
           raise ConnectionFailed
-        rescue Error, JSON::ParserError
-          raise InvalidApiResponse
+        rescue JSON::ParserError
+          raise InvalidApiResponse, "JSON parsing error: #{response.body}"
+        rescue StandardError => e
+          raise ApiError, e.message
         end
 
       end

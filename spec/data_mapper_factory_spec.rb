@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Alephant::Publisher::Request::DataMapperFactory do
   let (:connection) { instance_double(Faraday::Connection) }
-  let (:base_path) { File.join(File.dirname(__FILE__), 'fixtures') }
+  let (:base_path) { File.join(File.dirname(__FILE__), 'fixtures', 'components') }
 
   subject { described_class.new(connection, base_path) }
 
