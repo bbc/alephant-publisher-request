@@ -5,9 +5,7 @@ describe Alephant::Publisher::Request::Processor do
   subject { described_class.new(base_path) }
 
   describe ".new" do
-    let (:expected) { described_class }
-
-    specify { expect(subject).to be_a expected }
+    specify { expect(subject).to be_a described_class }
   end
 
   describe "#consume" do
