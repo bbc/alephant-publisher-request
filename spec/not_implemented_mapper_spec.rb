@@ -8,7 +8,7 @@ describe Alephant::Publisher::Request::DataMapper do
   subject { Alephant::Publisher::Request::DataMapper.new(api_host, context, connection) }
 
   describe ".new" do
-    specify { expect(subject).to be_instance_of Alephant::Publisher::Request::DataMapper }
+    specify { expect(subject).to be_a Alephant::Publisher::Request::DataMapper }
   end
 
   describe "#data" do
