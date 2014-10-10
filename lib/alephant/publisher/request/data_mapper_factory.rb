@@ -2,10 +2,9 @@ module Alephant
   module Publisher
     module Request
       class DataMapperFactory
-        attr_reader :api_host, :connection, :base_path
+        attr_reader :connection, :base_path
 
-        def initialize(api_host, connection, base_path)
-          @api_host   = api_host
+        def initialize(connection, base_path)
           @connection = connection
           @base_path  = base_path
           raise InvalidComponentBasePath, base_path unless File.directory? base_path
@@ -15,7 +14,7 @@ module Alephant
           require base_path_for component_id
 
           klass = mapper_class_for(component_id)
-          klass.new(api_host, context, connection)
+          klass.new(connection, context)
         rescue LoadError
           raise InvalidComponentName, component_id
         rescue NameError

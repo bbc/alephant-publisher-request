@@ -10,15 +10,14 @@ module Alephant
     module Request
       include Logger
 
-      def self.create(processor, data_mapper_factory, opts = {})
-        Request.new(opts, data_mapper_factory, processor)
+      def self.create(processor, data_mapper_factory)
+        Request.new(processor, data_mapper_factory)
       end
 
       class Request
-        attr_reader :opts, :processor, :data_mapper_factory
+        attr_reader :processor, :data_mapper_factory
 
-        def initialize(opts, data_mapper_factory, processor = nil)
-          @opts                = opts
+        def initialize(processor, data_mapper_factory)
           @processor           = processor
           @data_mapper_factory = data_mapper_factory
         end
@@ -40,8 +39,6 @@ module Alephant
           Rack::Response.new("<h1>An exception occured: #{e.message}</h1>", 500, { 'Content-Type' => 'text/html' })
         end
 
-        def run!
-        end
       end
     end
   end
