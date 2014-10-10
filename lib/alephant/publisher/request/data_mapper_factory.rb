@@ -26,12 +26,12 @@ module Alephant
 
         protected
 
-        def camalize(snake_case)
-          "#{snake_case.split('_').collect(&:capitalize).join}"
-        end
-
         def base_path_for(component_id)
           "#{base_path}/components/#{component_id}/mapper"
+        end
+
+        def camalize(snake_case)
+          "#{snake_case.split('_').collect(&:capitalize).join}"
         end
 
         def mapper_class_for(component_id)
