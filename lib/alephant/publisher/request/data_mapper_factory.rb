@@ -12,12 +12,9 @@ module Alephant
         end
 
         def create(component_id, context = {})
-          require "#{base_path}/components/#{component_id}/mapper"
+          require base_path_for component_id
 
-          klass = Object.const_get(
-            "#{component_id.split('_').collect(&:capitalize).join}Mapper"
-          )
-
+          klass = mapper_class_for(component_id)
           klass.new(api_host, context, connection)
         rescue LoadError
           raise InvalidComponentName, component_id
@@ -25,6 +22,20 @@ module Alephant
           raise InvalidComponentClassName, klass
         rescue
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
+        end
+
+        protected
+
+        def camalize(snake_case)
+          "#{snake_case.split('_').collect(&:capitalize).join}"
+        end
+
+        def base_path_for(component_id)
+          "#{base_path}/components/#{component_id}/mapper"
+        end
+
+        def mapper_class_for(component_id)
+          Object.const_get("#{camalize component_id}Mapper")
         end
 
       end
