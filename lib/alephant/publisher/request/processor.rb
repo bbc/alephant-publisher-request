@@ -19,6 +19,8 @@ module Alephant
           Alephant::Renderer.create(config, data)
         end
 
+        protected
+
         def config_for(component)
           {
             :renderer_id => component,
