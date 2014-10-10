@@ -21,6 +21,10 @@ module Alephant
           klass.new(api_host, context, connection)
         rescue LoadError
           raise InvalidComponentName, component_id
+        rescue NameError
+          raise InvalidComponentClassName, klass
+        rescue
+          raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
 
       end

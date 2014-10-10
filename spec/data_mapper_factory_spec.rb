@@ -34,5 +34,12 @@ describe Alephant::Publisher::Request::DataMapperFactory do
 
       specify { expect{ subject.create(component_id, context) }.to raise_error expected_exception }
     end
+
+    context "using invalid class name" do
+      let (:component_id) { 'invalid' }
+      let (:expected_exception) { Alephant::Publisher::Request::InvalidComponentClassName }
+
+      specify { expect{ subject.create(component_id, context) }.to raise_error expected_exception }
+    end
   end
 end
