@@ -13,10 +13,7 @@ describe Alephant::Publisher::Request do
     context "Using valid params" do
       let (:expected) { Alephant::Publisher::Request::Request }
 
-      specify {
-        expect(subject.create(processor, data_mapper_factory, options)).to be_instance_of expected
-      }
-
+      specify { expect(subject.create(processor, data_mapper_factory, options)).to be_a expected }
     end
   end
 
