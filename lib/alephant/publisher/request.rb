@@ -10,18 +10,19 @@ module Alephant
     module Request
       include Logger
 
-      def self.create(processor, data_mapper_factory)
-        Request.new(processor, data_mapper_factory)
+      def self.create(processor, data_mapper_factory, opts = {})
+        Request.new(processor, data_mapper_factory, opts)
       end
 
       class Request
-        attr_reader :processor, :data_mapper_factory
+        attr_reader :processor, :data_mapper_factory, :opts
 
         DEFAULT_CONTENT_TYPE = { "Content-Type" => "text/html" }
 
-        def initialize(processor, data_mapper_factory)
+        def initialize(processor, data_mapper_factory, opts)
           @processor           = processor
           @data_mapper_factory = data_mapper_factory
+          @opts                = opts
         end
 
         def call(env)
@@ -30,7 +31,7 @@ module Alephant
 
           case req.path_info
           when /status$/
-            response = status
+            response = Rack::Response.new('', 204, DEFAULT_CONTENT_TYPE)
           when /component\/(?<id>[^\/]+)$/
             response = Rack::Response.new(
               template_data($~['id'], req.params),
@@ -40,8 +41,12 @@ module Alephant
           end
 
           response.finish
+        rescue ApiError, ConnectionFailed => e
+          error_response(e, 502)
+        rescue InvalidComponent => e
+          error_response(e, 404)
         rescue Exception => e
-          Rack::Response.new("<h1>An exception occured: #{e.message}</h1>", 500, DEFAULT_CONTENT_TYPE)
+          error_response e
         end
 
         protected
@@ -57,6 +62,11 @@ module Alephant
         def template_data(component_id, params)
           mapper = data_mapper_factory.create(component_id, params)
           processor.consume(mapper.data, component_id)
+        end
+
+        def error_response(e = '', code = 500)
+          message = opts.fetch(:debug, false) ? e.message : ''
+          Rack::Response.new(message, code, DEFAULT_CONTENT_TYPE).finish
         end
 
       end
