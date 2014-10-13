@@ -15,7 +15,7 @@ describe Alephant::Publisher::Request do
     end
 
     context "status code" do
-      specify { expect(last_response.status).to eq 204 }
+      specify { expect(last_response.status).to eq 200 }
     end
   end
 
