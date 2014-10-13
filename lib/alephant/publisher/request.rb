@@ -31,7 +31,7 @@ module Alephant
 
           case req.path_info
           when /status$/
-            response = Rack::Response.new('', 204, DEFAULT_CONTENT_TYPE)
+            response = Rack::Response.new('ok', 200, DEFAULT_CONTENT_TYPE)
           when /component\/(?<id>[^\/]+)$/
             response = Rack::Response.new(
               template_data($~['id'], req.params),
