@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rack-test"
   spec.add_development_dependency "spurious-ruby-awssdk-helper"
+  spec.add_development_dependency "rake-rspec"
 
   spec.add_runtime_dependency 'rack'
   spec.add_runtime_dependency 'rake'
