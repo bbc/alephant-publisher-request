@@ -22,7 +22,7 @@ describe Alephant::Publisher::Request do
   describe "component endpoint (/component/{component_id}?foo=bar)" do
     let (:component_id) { "foo" }
 
-    context "content" do
+    describe "content" do
 
       context "with a valid component id" do
         let (:api_response) { "{\"content\":\"#{component_id}\"}" }
@@ -36,7 +36,7 @@ describe Alephant::Publisher::Request do
 
     end
 
-    context "status code" do
+    describe "status code" do
 
       context "with an invalid component id" do
         let (:component_id) { "foo_invalid" }
