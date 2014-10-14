@@ -12,7 +12,7 @@ Dynamic publishing based on data from an API.
 
 1. Add the new gem in your Gemfile (`gem 'alephant-publisher-request'`).
 2. Run `bundle install`.
-3. Require the new gem in your app (`require 'alephant/publisher/queue'`).
+3. Require the new gem in your app (`require 'alephant/publisher/request'`).
 4. Note that the namespace has changed from `Alephant::Publisher` to `Alephant::Publisher::Request`.
 
 ## Installation
