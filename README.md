@@ -10,10 +10,20 @@ Dynamic publishing based on data from an API.
 
 ## Migrating from [Alephant::Publisher](https://github.com/BBC-News/alephant-publisher)
 
-1. Add the new gem in your Gemfile (`gem 'alephant-publisher-request'`).
-2. Run `bundle install`.
-3. Require the new gem in your app (`require 'alephant/publisher/request'`).
-4. Note that the namespace has changed from `Alephant::Publisher` to `Alephant::Publisher::Request`.
+Add the new gem to your Gemfile:
+
+    gem 'alephant-publisher-request'
+
+Run:
+
+    bundle install
+
+Require the new gem in your app:
+
+    require 'alephant/publisher/request'
+
+
+**Note** - the namespace has changed from `Alephant::Publisher` to `Alephant::Publisher::Request`.
 
 ## Installation
 
@@ -31,7 +41,7 @@ Or install it yourself as:
 
 ## Setup
 
-You need to run the gem as a rack application, and pass it the nessasary dependencies. Below is a simple example of the minimum needed to run the server:
+You need to run the gem as a rack application, and pass it the necessary dependencies. Below is a simple example of the minimum needed to run the server:
 
 ### Folder structure
 
@@ -127,7 +137,7 @@ end
 The server is a simple rack server, so you just need to run:
 
 ```bash
-$: rackup
+rackup
 ```
 
 in the `src` directory where the `config.ru` file is.
@@ -187,4 +197,6 @@ PREVIEW_TEMPLATE_URL="http://yourapp.com/template"
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+5. Create new [Pull Request](https://github.com/BBC-News/alephant-publisher-request/pulls).
+
+Feel free to create an [issue](https://github.com/BBC-News/alephant-publisher-request/issues/new) if you find a bug.
