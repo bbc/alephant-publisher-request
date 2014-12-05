@@ -66,7 +66,7 @@ The model must extend either the JSON or HTML base from the [alephant-renderer](
 require 'alephant/renderer/views/html'
 
 module SomeNameSpace
-  class MyTestComponent Alephant::Renderer::Views::Html
+  class MyTestComponent < Alephant::Renderer::Views::Html
 
     def some_method
 	  @body.some_method
