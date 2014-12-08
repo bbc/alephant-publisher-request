@@ -19,6 +19,7 @@ module Alephant
           logger.metric({:name => "PublisherRequestDataMapperFactoryInvalidComponentName", :unit => "Count", :value => 1})
           raise InvalidComponentName, "Invalid component name: #{component_id}"
         rescue NameError
+          logger.metric({:name => "PublisherRequestDataMapperFactoryInvalidComponentClassName", :unit => "Count", :value => 1})
           raise InvalidComponentClassName, "Invalid class name #{klass}"
         rescue
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
