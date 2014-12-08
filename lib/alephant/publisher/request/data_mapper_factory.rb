@@ -16,6 +16,7 @@ module Alephant
           klass = mapper_class_for(component_id)
           klass.new(connection, context)
         rescue LoadError
+          logger.metric({:name => "PublisherRequestDataMapperFactoryInvalidComponentName", :unit => "Count", :value => 1})
           raise InvalidComponentName, "Invalid component name: #{component_id}"
         rescue NameError
           raise InvalidComponentClassName, "Invalid class name #{klass}"
