@@ -1,4 +1,5 @@
 require 'alephant/publisher/request/processor/base'
+require 'alephant/renderer'
 
 module Alephant
   module Publisher
