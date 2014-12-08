@@ -28,6 +28,7 @@ module Alephant
           logger.metric({:name => "PublisherRequestDataMapperInvalidApiResponse", :unit => "Count", :value => 1})
           raise InvalidApiResponse, "JSON parsing error: #{response.body}"
         rescue StandardError => e
+          logger.metric({:name => "PublisherRequestDataMapperApiError", :unit => "Count", :value => 1})
           raise ApiError, e.message
         end
 
