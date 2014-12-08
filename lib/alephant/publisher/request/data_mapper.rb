@@ -1,9 +1,12 @@
+require 'alephant/logger'
 require 'json'
 
 module Alephant
   module Publisher
     module Request
       class DataMapper
+        include Logger
+
         attr_reader :connection, :context
 
         def initialize(connection, context = {})
