@@ -65,6 +65,7 @@ module Alephant
         end
 
         def error_response(e = '', code = 500)
+          logger.metric({:name => "PublisherRequestErrorResponseStatus#{code}", :unit => "Count", :value => 1})
           message = opts.fetch(:debug, false) ? e.message : ''
           Rack::Response.new(message, code, DEFAULT_CONTENT_TYPE).finish
         end
