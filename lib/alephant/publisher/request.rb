@@ -8,13 +8,14 @@ require 'alephant/publisher/request/error'
 module Alephant
   module Publisher
     module Request
-      include Logger
 
       def self.create(processor, data_mapper_factory, opts = {})
         Request.new(processor, data_mapper_factory, opts)
       end
 
       class Request
+        include Logger
+
         attr_reader :processor, :data_mapper_factory, :opts
 
         DEFAULT_CONTENT_TYPE = { "Content-Type" => "text/html" }
