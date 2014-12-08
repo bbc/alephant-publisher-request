@@ -8,13 +8,14 @@ require 'alephant/publisher/request/error'
 module Alephant
   module Publisher
     module Request
-      include Logger
 
       def self.create(processor, data_mapper_factory, opts = {})
         Request.new(processor, data_mapper_factory, opts)
       end
 
       class Request
+        include Logger
+
         attr_reader :processor, :data_mapper_factory, :opts
 
         DEFAULT_CONTENT_TYPE = { "Content-Type" => "text/html" }
@@ -65,6 +66,7 @@ module Alephant
         end
 
         def error_response(e = '', code = 500)
+          logger.metric(:name => "PublisherRequestErrorResponseStatus#{code}", :unit => "Count", :value => 1)
           message = opts.fetch(:debug, false) ? e.message : ''
           Rack::Response.new(message, code, DEFAULT_CONTENT_TYPE).finish
         end

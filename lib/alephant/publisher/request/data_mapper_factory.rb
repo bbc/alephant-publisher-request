@@ -1,7 +1,11 @@
+require 'alephant/logger'
+
 module Alephant
   module Publisher
     module Request
       class DataMapperFactory
+        include Logger
+
         attr_reader :connection, :base_path
 
         def initialize(connection, base_path)
@@ -16,10 +20,13 @@ module Alephant
           klass = mapper_class_for(component_id)
           klass.new(connection, context)
         rescue LoadError
+          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentName", :unit => "Count", :value => 1)
           raise InvalidComponentName, "Invalid component name: #{component_id}"
         rescue NameError
+          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentClassName", :unit => "Count", :value => 1)
           raise InvalidComponentClassName, "Invalid class name #{klass}"
         rescue
+          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponent", :unit => "Count", :value => 1)
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
 
