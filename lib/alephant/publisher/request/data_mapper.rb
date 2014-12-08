@@ -22,6 +22,7 @@ module Alephant
           raise InvalidApiResponse, "Status: #{response.status}" unless response.status == 200
           JSON::parse(response.body, :symbolize_names => true)
         rescue Faraday::ConnectionFailed
+          logger.metric({:name => "PublisherRequestDataMapperConnectionFailed", :unit => "Count", :value => 1})
           raise ConnectionFailed
         rescue JSON::ParserError
           raise InvalidApiResponse, "JSON parsing error: #{response.body}"
