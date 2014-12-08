@@ -1,7 +1,11 @@
+require 'alephant/logger'
+
 module Alephant
   module Publisher
     module Request
       class DataMapperFactory
+        include Logger
+
         attr_reader :connection, :base_path
 
         def initialize(connection, base_path)
