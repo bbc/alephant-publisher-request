@@ -20,6 +20,7 @@ module Alephant
         def get(uri)
           connection.get uri
         end
+
       end
     end
   end
