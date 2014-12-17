@@ -9,6 +9,15 @@ module Alephant
       class InvalidComponentBasePath < InvalidComponent; end
       class InvalidComponentName < InvalidComponent; end
       class InvalidComponentClassName < InvalidComponent; end
+      class InvalidApiStatus < ApiError
+        attr_accessor :status
+
+        def initialize(status)
+          @status = status
+          super("Status: #{status}")
+        end
+
+      end
     end
   end
 end

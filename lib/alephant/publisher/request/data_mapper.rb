@@ -23,8 +23,8 @@ module Alephant
         def get(uri)
           before = Time.new
           response = connection.get(uri)
-          raise InvalidApiResponse, "Status: #{response.status}" unless response.status == 200
           logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => Time.new - before)
+          raise InvalidApiStatus, response.status unless response.status == 200
           JSON::parse(response.body, :symbolize_names => true)
         rescue Faraday::ConnectionFailed
           logger.metric(:name => "PublisherRequestDataMapperConnectionFailed", :unit => "Count", :value => 1)
@@ -32,11 +32,13 @@ module Alephant
         rescue JSON::ParserError
           logger.metric(:name => "PublisherRequestDataMapperInvalidApiResponse", :unit => "Count", :value => 1)
           raise InvalidApiResponse, "JSON parsing error: #{response.body}"
+        rescue InvalidApiStatus => e
+          logger.metric(:name => "PublisherRequestDataMapperInvalidStatus#{e.status}", :unit => "Count", :value => 1)
+          raise e
         rescue StandardError => e
           logger.metric(:name => "PublisherRequestDataMapperApiError", :unit => "Count", :value => 1)
           raise ApiError, e.message
         end
-
       end
     end
   end
