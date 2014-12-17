@@ -47,14 +47,26 @@ describe Alephant::Publisher::Request do
         specify { expect(last_response.status).to eq 404 }
       end
 
+      context "with an invalid status code" do
+        let (:status_code) { 502 }
+        let (:expected_exception) { Alephant::Publisher::Request::InvalidApiStatus.new(status_code) }
+        before(:each) do
+          allow(connection).to receive(:get).and_raise expected_exception
+          get "/component/#{component_id}"
+        end
+
+        specify { expect(last_response.status).to eq status_code }
+      end
+
       context "with an invalid API endpoint" do
+        let (:status_code) { 503 }
         let (:expected_exception) { Alephant::Publisher::Request::InvalidApiResponse }
         before(:each) do
           allow(connection).to receive(:get).and_raise expected_exception
           get "/component/#{component_id}"
         end
 
-        specify { expect(last_response.status).to eq 502 }
+        specify { expect(last_response.status).to eq status_code }
       end
 
     end
