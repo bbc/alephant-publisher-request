@@ -34,8 +34,11 @@ module Alephant
           when /status$/
             response = Rack::Response.new('ok', 200, DEFAULT_CONTENT_TYPE)
           when /component\/(?<id>[^\/]+)$/
+            component_id = $~['id']
+            logger.info "Component request for: #{component_id} with options: #{req.params.inspect}"
+
             response = Rack::Response.new(
-              template_data($~['id'], req.params),
+              template_data(component_id, req.params),
               200,
               DEFAULT_CONTENT_TYPE
             )
@@ -68,6 +71,7 @@ module Alephant
         end
 
         def error_response(e = '', code = 500)
+          logger.error "Publisher::Request#error_response: #{e.message}"
           logger.metric(:name => "PublisherRequestErrorResponseStatus#{code}", :unit => "Count", :value => 1)
           message = opts.fetch(:debug, false) ? e.message : ''
           Rack::Response.new(message, code, DEFAULT_CONTENT_TYPE).finish

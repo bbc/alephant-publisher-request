@@ -1,10 +1,10 @@
-require 'alephant/logger'
+require 'alephant/publisher/request/log_helper'
 
 module Alephant
   module Publisher
     module Request
       class DataMapperFactory
-        include Logger
+        include Alephant::Publisher::Request::LogHelper
 
         attr_reader :connection, :base_path
 
@@ -19,14 +19,14 @@ module Alephant
 
           klass = mapper_class_for(component_id)
           klass.new(connection, context)
-        rescue LoadError
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentName", :unit => "Count", :value => 1)
+        rescue LoadError => e
+          log_error_with_metric(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentName")
           raise InvalidComponentName, "Invalid component name: #{component_id}"
-        rescue NameError
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentClassName", :unit => "Count", :value => 1)
+        rescue NameError => e
+          log_error_with_metric(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentClassName")
           raise InvalidComponentClassName, "Invalid class name #{klass}"
-        rescue
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponent", :unit => "Count", :value => 1)
+        rescue => e
+          log_error_with_metric(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponent")
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
 
@@ -44,6 +44,9 @@ module Alephant
           Object.const_get("#{camalize component_id}Mapper")
         end
 
+        def log_error(e, component_id, metric)
+          log_error_with_metric(e, 'DataMapperFactory#create', component_id, metric)
+        end
       end
     end
   end
