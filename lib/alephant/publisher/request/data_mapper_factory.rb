@@ -19,14 +19,14 @@ module Alephant
 
           klass = mapper_class_for(component_id)
           klass.new(connection, context)
-        rescue LoadError
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentName", :unit => "Count", :value => 1)
+        rescue LoadError => e
+          log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentName")
           raise InvalidComponentName, "Invalid component name: #{component_id}"
         rescue NameError
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponentClassName", :unit => "Count", :value => 1)
+          log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentClassName")
           raise InvalidComponentClassName, "Invalid class name #{klass}"
         rescue
-          logger.metric(:name => "PublisherRequestDataMapperFactoryInvalidComponent", :unit => "Count", :value => 1)
+          log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponent")
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
 
@@ -44,6 +44,10 @@ module Alephant
           Object.const_get("#{camalize component_id}Mapper")
         end
 
+        def log(e, component, metric = nil, metric_count = 1)
+          logger.error "Publisher::Request::DataMapperFactory#create#{method}: '#{e.class}(#{e.message})' exception raised for component: #{component}"
+          logger.metric(:name => metric, :unit => "Count", :value => metric_count) unless metric.nil?
+        end
       end
     end
   end
