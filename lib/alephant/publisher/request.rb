@@ -42,8 +42,10 @@ module Alephant
           end
 
           response.finish
+        rescue InvalidApiStatus => e
+          error_response(e, e.status)
         rescue ApiError, ConnectionFailed => e
-          error_response(e, 502)
+          error_response(e, 503)
         rescue InvalidComponent => e
           error_response(e, 404)
         rescue Exception => e
