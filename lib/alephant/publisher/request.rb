@@ -45,7 +45,7 @@ module Alephant
         rescue InvalidApiStatus => e
           error_response(e, e.status)
         rescue ApiError, ConnectionFailed => e
-          error_response(e, 503)
+          error_response(e, 502)
         rescue InvalidComponent => e
           error_response(e, 404)
         rescue Exception => e

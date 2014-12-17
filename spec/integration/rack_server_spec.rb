@@ -48,7 +48,7 @@ describe Alephant::Publisher::Request do
       end
 
       context "with an invalid status code" do
-        let (:status_code) { 502 }
+        let (:status_code) { 503 }
         let (:expected_exception) { Alephant::Publisher::Request::InvalidApiStatus.new(status_code) }
         before(:each) do
           allow(connection).to receive(:get).and_raise expected_exception
@@ -59,7 +59,7 @@ describe Alephant::Publisher::Request do
       end
 
       context "with an invalid API endpoint" do
-        let (:status_code) { 503 }
+        let (:status_code) { 502 }
         let (:expected_exception) { Alephant::Publisher::Request::InvalidApiResponse }
         before(:each) do
           allow(connection).to receive(:get).and_raise expected_exception
