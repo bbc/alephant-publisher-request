@@ -35,7 +35,19 @@ describe FooMapper do
         allow(connection).to receive(:get).and_raise(faraday_exception)
       end
 
-      specify { expect{ subject.data }.to raise_error expected_exception }
+      specify { expect { subject.data }.to raise_error expected_exception }
     end
+
+    context "invalid status code" do
+      let (:status_code) { 503 }
+      let (:expected_exception) { Alephant::Publisher::Request::InvalidApiStatus }
+      before(:each) do
+        allow(connection).to receive(:get).and_return(OpenStruct.new(:status => status_code))
+      end
+
+      specify { expect { subject.data }.to raise_error expected_exception }
+    end
+
+
   end
 end
