@@ -22,10 +22,10 @@ module Alephant
         rescue LoadError => e
           log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentName")
           raise InvalidComponentName, "Invalid component name: #{component_id}"
-        rescue NameError
+        rescue NameError => e
           log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponentClassName")
           raise InvalidComponentClassName, "Invalid class name #{klass}"
-        rescue
+        rescue => e
           log(e, component_id, "PublisherRequestDataMapperFactoryInvalidComponent")
           raise InvalidComponent, "Name: #{component_id}, Class: #{klass}"
         end
