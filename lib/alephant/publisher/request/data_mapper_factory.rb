@@ -45,7 +45,7 @@ module Alephant
         end
 
         def log(e, component, metric = nil, metric_count = 1)
-          logger.error "Publisher::Request::DataMapperFactory#create#{method}: '#{e.class}(#{e.message})' exception raised for component: #{component}"
+          logger.error "Publisher::Request::DataMapperFactory#create: '#{e.class}(#{e.message})' exception raised for component: #{component}"
           logger.metric(:name => metric, :unit => "Count", :value => metric_count) unless metric.nil?
         end
       end
