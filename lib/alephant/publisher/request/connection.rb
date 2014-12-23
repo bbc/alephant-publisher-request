@@ -13,9 +13,11 @@ module Alephant
 
         def get(uri)
           before = Time.new
-          logger.info "Publisher::Request::DataMapper#get: #{uri}"
-          response = driver.get(uri)
-          logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => Time.new - before)
+          logger.info "Publisher::Request::DataMapper#get: uri: #{uri}"
+          response = connection.get(uri)
+          response_time = Time.new - before
+          logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => response_time)
+          logger.info "Publisher::Request::DataMapper#get: API response time: #{response_time}"
           logger.info "Publisher::Request::DataMapper#get: status returned: #{response.status} for #{uri}"
           raise InvalidApiStatus, response.status unless response.status == 200
           JSON::parse(response.body, :symbolize_names => true)
@@ -24,7 +26,7 @@ module Alephant
           raise ConnectionFailed
         rescue JSON::ParserError => e
           log(e, uri, "PublisherRequestDataMapperInvalidApiResponse", 1)
-          raise InvalidApiResponse, "JSON parsing log_error: #{response.body}"
+          raise InvalidApiResponse, "JSON parsing error: #{response.body}"
         rescue InvalidApiStatus => e
           log(e, uri, "PublisherRequestDataMapperInvalidStatus#{e.status}", 1)
           raise e
