@@ -1,10 +1,12 @@
 require "alephant/logger"
+require "alephant/publisher/request/log_helper"
 
 module Alephant
   module Publisher
     module Request
       class Connection
         include Logger
+        include Alephant::Publisher::Request::LogHelper
         attr_reader :driver
 
         def initialize(driver)
@@ -12,34 +14,34 @@ module Alephant
         end
 
         def get(uri)
-          before = Time.new
-          logger.info "Publisher::Request::DataMapper#get: uri: #{uri}"
-          response = connection.get(uri)
-          response_time = Time.new - before
-          logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => response_time)
-          logger.info "Publisher::Request::DataMapper#get: API response time: #{response_time}"
-          logger.info "Publisher::Request::DataMapper#get: status returned: #{response.status} for #{uri}"
-          raise InvalidApiStatus, response.status unless response.status == 200
-          JSON::parse(response.body, :symbolize_names => true)
+          JSON::parse(request(uri).body, :symbolize_names => true)
         rescue Faraday::ConnectionFailed => e
-          log(e, uri, "PublisherRequestDataMapperConnectionFailed", :unit => "Count", :value => 1)
+          log_error_with_metric(e, 'DataMapper#request', uri, "PublisherRequestDataMapperConnectionFailed")
           raise ConnectionFailed
-        rescue JSON::ParserError => e
-          log(e, uri, "PublisherRequestDataMapperInvalidApiResponse", 1)
-          raise InvalidApiResponse, "JSON parsing error: #{response.body}"
         rescue InvalidApiStatus => e
-          log(e, uri, "PublisherRequestDataMapperInvalidStatus#{e.status}", 1)
+          log_error_with_metric(e, 'DataMapper#request', uri, "PublisherRequestDataMapperInvalidStatus#{e.status}")
           raise e
+        rescue JSON::ParserError => e
+          log_error_with_metric(e, 'DataMapper#get', uri, "PublisherRequestDataMapperInvalidApiResponse")
+          raise InvalidApiResponse, "JSON parsing error: #{response.body}"
         rescue StandardError => e
-          log(e, uri, "PublisherRequestDataMapperApiError", 1)
+          log_error_with_metric(e, 'DataMapper#get', uri, "PublisherRequestDataMapperApiError")
           raise ApiError, e.message
         end
 
         private
 
-        def log(e, uri, metric = nil, metric_count = 1)
-          logger.error "Publisher::Request::DataMapper#get: '#{e.class}(#{e.message})' exception raised for: #{uri}"
-          logger.metric(:name => metric, :unit => "Count", :value => metric_count) unless metric.nil?
+        def request(uri)
+          before = Time.new
+          logger.info "Publisher::Request::DataMapper#request: uri: #{uri}"
+
+          connection.get(uri).tap do |response|
+            response_time = Time.new - before
+            logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => response_time)
+            logger.info "Publisher::Request::DataMapper#request: API response time: #{response_time}"
+            logger.info "Publisher::Request::DataMapper#request: status returned: #{response.status} for #{uri}"
+            raise InvalidApiStatus, response.status unless response.status == 200
+          end
         end
       end
     end
