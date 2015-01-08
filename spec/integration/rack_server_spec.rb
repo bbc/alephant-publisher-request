@@ -5,7 +5,7 @@ describe Alephant::Publisher::Request do
   let (:response) { instance_double(Faraday::Response, :status => 200, :body => nil) }
   let (:base_path) { File.join(File.dirname(__FILE__), '..', 'fixtures', 'components') }
   let (:processor) { Alephant::Publisher::Request::Processor.new(base_path) }
-  let (:connection) { instance_double(Faraday::Connection, :get => response) }
+  let (:connection) { instance_double(Alephant::Publisher::Request::Connection, :get => response) }
   let (:data_mapper_factory) { Alephant::Publisher::Request::DataMapperFactory.new(connection, base_path) }
   let (:app) { subject.create(processor, data_mapper_factory, { :debug => true }) }
 
