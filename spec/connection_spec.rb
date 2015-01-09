@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe Alephant::Publisher::Request::Connection do
   let (:driver) { instance_double(Faraday::Connection, :get => nil) }
-  let (:uri) { '/foo/bar/baz' }
+  let (:uri) { "/foo/bar/baz" }
 
   subject { described_class.new driver }
 
-  describe "#data" do
+  describe "#get" do
     let (:expected_raw_data) do
       {
         :some => 'data'
       }
     end
-    let (:expected_data) { JSON::generate(expected_raw_data, :symbolize_names => true) }
+    let (:expected_data) { JSON.generate(expected_raw_data, :symbolize_names => true) }
     let (:expected_response) { instance_double(Faraday::Response, :body => expected_data, :status => 200) }
 
     context "with a valid endpoint" do

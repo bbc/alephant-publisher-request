@@ -1,4 +1,4 @@
-require 'alephant/logger'
+require "alephant/logger"
 
 module Alephant
   module Publisher
