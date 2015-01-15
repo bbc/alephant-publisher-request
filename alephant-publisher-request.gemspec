@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rake'
   spec.add_runtime_dependency 'faraday'
   spec.add_runtime_dependency 'aws-sdk', '~> 1.0'
-  spec.add_runtime_dependency 'mustache', '>= 0.99.5'
+  spec.add_runtime_dependency 'mustache'
   spec.add_runtime_dependency 'alephant-logger'
   spec.add_runtime_dependency 'alephant-renderer'
 end
