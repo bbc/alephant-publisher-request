@@ -35,7 +35,7 @@ module Alephant
           before = Time.new
           logger.info "Publisher::Request::DataMapper#request: uri: #{uri}"
 
-          connection.get(uri).tap do |response|
+          driver.get(uri).tap do |response|
             response_time = Time.new - before
             logger.metric(:name => "PublisherRequestDataMapperRequestHTTPTime", :unit => 'Seconds', :value => response_time)
             logger.info "Publisher::Request::DataMapper#request: API response time: #{response_time}"
