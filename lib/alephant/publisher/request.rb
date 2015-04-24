@@ -70,10 +70,10 @@ module Alephant
           processor.consume(mapper.data, component_id)
         end
 
-        def error_response(e = '', code = 500)
+        def error_response(e = "", code = 500)
           logger.error "Publisher::Request#error_response: #{e.message}"
-          logger.metric(:name => "PublisherRequestErrorResponseStatus#{code}", :unit => "Count", :value => 1)
-          message = opts.fetch(:debug, false) ? e.message : ''
+          logger.metric "PublisherRequestErrorResponseStatus#{code}"
+          message = opts.fetch(:debug, false) ? e.message : ""
           Rack::Response.new(message, code, DEFAULT_CONTENT_TYPE).finish
         end
 
