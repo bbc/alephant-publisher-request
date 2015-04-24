@@ -43,10 +43,6 @@ module Alephant
         def mapper_class_for(component_id)
           Object.const_get("#{camalize component_id}Mapper")
         end
-
-        def log_error(e, component_id, metric)
-          log_error_with_metric(e, 'DataMapperFactory#create', component_id, metric)
-        end
       end
     end
   end

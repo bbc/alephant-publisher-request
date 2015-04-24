@@ -37,7 +37,7 @@ module Alephant
 
           driver.get(uri).tap do |response|
             response_time = Time.new - before
-            logger.metric(:name => "PublisherRequestConnectionRequestHTTPTime", :unit => 'Seconds', :value => response_time)
+            logger.metric("PublisherRequestConnectionRequestHTTPTime", :unit => "Seconds", :value => response_time)
             logger.info "Publisher::Request::Connection#request: API response time: #{response_time}"
             logger.info "Publisher::Request::Connection#request: status returned: #{response.status} for #{uri}"
             raise InvalidApiStatus, response.status unless response.status == 200
