@@ -1,12 +1,12 @@
 language: ruby
 rvm:
+  - "2.3"
   - "jruby"
 script:
   - bundle exec rake all
 notifications:
   email:
     recipients:
-      - stevenmajack@gmail.com
-      - mark.mxdc@gmail.com
+      - D&ENewsFrameworksTeam@bbc.co.uk
     on_failure: change
     on_success: never
