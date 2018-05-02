@@ -1,7 +1,6 @@
 require "pry"
 
 require "json"
-require "aws-sdk"
 require "faraday"
 require "alephant/renderer"
 require "alephant/publisher/request"
