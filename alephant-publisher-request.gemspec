@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "alephant-publisher-request"
   spec.version       = Alephant::Publisher::Request::VERSION
   spec.authors       = ["BBC News"]
-  spec.email         = ["FutureMediaNewsRubyGems@bbc.co.uk"]
+  spec.email         = ["D&ENewsFrameworksTeam@bbc.co.uk"]
   spec.summary       = "..."
   spec.description   = "..."
   spec.homepage      = "https://github.com/BBC-News/alephant-publisher-request"
