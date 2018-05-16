@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "alephant-publisher-request"
   spec.version       = Alephant::Publisher::Request::VERSION
   spec.authors       = ["BBC News"]
-  spec.email         = ["FutureMediaNewsRubyGems@bbc.co.uk"]
+  spec.email         = ["D&ENewsFrameworksTeam@bbc.co.uk"]
   spec.summary       = "..."
   spec.description   = "..."
   spec.homepage      = "https://github.com/BBC-News/alephant-publisher-request"
@@ -31,7 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rack'
   spec.add_runtime_dependency 'rake'
   spec.add_runtime_dependency 'faraday'
-  spec.add_runtime_dependency 'aws-sdk', '~> 1.0'
   spec.add_runtime_dependency 'alephant-logger'
   spec.add_runtime_dependency 'alephant-renderer'
 end

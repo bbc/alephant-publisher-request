@@ -14,14 +14,14 @@ module Alephant
         end
 
         def get(uri)
-          JSON::parse(request(uri).body, :symbolize_names => true)
+          ::JSON::parse(request(uri).body, :symbolize_names => true)
         rescue Faraday::ConnectionFailed => e
           log_error_with_metric(e, 'Connection#request', uri, "PublisherRequestConnectionConnectionFailed")
           raise ConnectionFailed
         rescue InvalidApiStatus => e
           log_error_with_metric(e, 'Connection#request', uri, "PublisherRequestConnectionInvalidStatus#{e.status}")
           raise e
-        rescue JSON::ParserError => e
+        rescue ::JSON::ParserError => e
           log_error_with_metric(e, 'Connection#get', uri, "PublisherRequestConnectionInvalidApiResponse")
           raise InvalidApiResponse, "JSON parsing error: #{response.body}"
         rescue StandardError => e
